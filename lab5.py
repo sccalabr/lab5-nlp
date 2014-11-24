@@ -117,12 +117,28 @@ def classifyStatement(statement):
         else :
             map[statement.split()[0]] = "(" +names[0] +" == knave) or (" + names[1] + " == knave)"
             claims.append((statement.split()[0],makeSimpleORClaim(names[0],"knave", names[1], "knave")))
+    #I ADDED THIS WHOLE BLOCK TO CORRECTLY HANDLE THE LAST GAME's CLAIMS
+    # NOT SURE IF IT NEEDS THE NAME SWAP CHECK
+    elif "Both" in statement:
+        if "I am a knight" in statement and "is a knight" in statement:
+            map[statement.split()[0]] = "(" +names[0] +" == knight) or (" + names[1] + "== knight)"
+            claims.append((statement.split()[0],makeSimpleANDClaim(names[0],"knight", names[1], "knight")))
+        elif "I am a knight" in statement and "is a knave" in statement:
+            map[statement.split()[0]] = "(" +names[0] +" == knight) or (" + names[1] + "== knave)"
+            claims.append((statement.split()[0],makeSimpleANDClaim(names[0],"knight", names[1], "knave")))
+        elif "I am a knave" in statement and "is a knight" in statement:
+            map[statement.split()[0]] = "(" +names[0] +" == knave) or (" + names[1] + "== knight)"
+            claims.append((statement.split()[0],makeSimpleANDClaim(names[0],"knave", names[1], "knight")))
+        else :
+            map[statement.split()[0]] = "(" +names[0] +" == knave) or (" + names[1] + "== knave)"
+            claims.append((statement.split()[0],makeSimpleANDClaim(names[0],"knave", names[1], "knave")))
     
     elif knightKnaveCheck(statement):
         if statement.split()[0] != names[0]:
             name = names[1]
             names[1] = names[0]
             names[0] = name
+
         if "I am a knight" in statement and "is a knight" in statement:
             map[statement.split()[0]] = "(" +names[0] +" == knight) or (" + names[1] + "== knight)"
             claims.append((statement.split()[0],makeSimpleORClaim(names[0],"knight", names[1], "knight")))
@@ -152,7 +168,7 @@ def classifyStatement(statement):
         name = getName(statement)
         
         map[statement.split()[0]] = name +" == " + type
-        claims.append((statement.split()[0],makeSimpleClaim(name, type)))
+        claims.append((statement.split()[0],makeSimpleClaim(name, type)))    
     
     elif " not the case that" in statement and "is a knight" in statement:
         name = getName(statement)
@@ -207,12 +223,12 @@ def classifyStatement(statement):
                 claims.append((statement.split()[0],makeSimpleClaim(names[0], ("knight" if "knave" == statement.split()[-1] else "knave"))))
     
     elif "could say that I am a knave" in statement or "could claim that I am a knave" in statement or "would tell you that I am a knave" in statement:
-          map[statement.split()[0]] = (names[1] if statement.split()[0] == names[0] else names[0]) + " == knave or " + (names[0] if statement.split()[0] == names[0] else names[1]) + " == knight" #CHANGED TO BE Disjunction
-          claims.append((statement.split()[0],makeSimpleORClaim((names[1] if statement.split()[0] == names[0] else names[0]), "knave",(names[0] if statement.split()[0] == names[0] else names[1]), "knight")))
+          map[statement.split()[0]] = (names[1] if statement.split()[0] == names[0] else names[0]) + " == knave and " + (names[0] if statement.split()[0] == names[0] else names[1]) + " == knight or " + (names[1] if statement.split()[0] == names[0] else names[0]) + " == knight and " + (names[0] if statement.split()[0] == names[0] else names[1]) + " == knave" #CHANGED TO BE Disjunction
+          claims.append((statement.split()[0],makeANDNestedInORClaim((names[1] if statement.split()[0] == names[0] else names[0]), "knave",(names[0] if statement.split()[0] == names[0] else names[1]), "knight",(names[1] if statement.split()[0] == names[0] else names[0]), "knight",(names[0] if statement.split()[0] == names[0] else names[1]), "knave")))
     
     elif "could say that I am a knight" in statement or "could claim that I am a knight" in statement or "would tell you that I am a knight" in statement:
-          map[statement.split()[0]] = (names[1] if statement.split()[0] == names[0] else names[0]) + " == knight or " + (names[0] if statement.split()[0] == names[0] else names[1]) + " == knave" #CHANGED TO BE Disjunction
-          claims.append((statement.split()[0],makeSimpleORClaim((names[1] if statement.split()[0] == names[0] else names[0]), "knight",(names[0] if statement.split()[0] == names[0] else names[1]), "knave")))
+          map[statement.split()[0]] = (names[1] if statement.split()[0] == names[0] else names[0]) + " == knight and " + (names[0] if statement.split()[0] == names[0] else names[1]) + " == knight or " + (names[1] if statement.split()[0] == names[0] else names[0]) + " == knave and " + (names[0] if statement.split()[0] == names[0] else names[1]) + " == knave" #CHANGED TO BE Disjunction
+          claims.append((statement.split()[0],makeANDNestedInORClaim((names[1] if statement.split()[0] == names[0] else names[0]), "knight",(names[0] if statement.split()[0] == names[0] else names[1]), "knight",(names[1] if statement.split()[0] == names[0] else names[0]), "knave",(names[0] if statement.split()[0] == names[0] else names[1]), "knave")))
           
     elif "Either" in statement:
         if "knight" in statement:
