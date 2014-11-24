@@ -265,17 +265,27 @@ if __name__ == '__main__':
         solution2 = {A:"knave", B : "knight"}
         solution3 = {A:"knight", B : "knave"}
         solution4 = {A:"knave", B : "knave"}
-
+        solution = ""
+        
         if claims[0][1](solution1) and claims[1][1](solution1):
             print("Solution is:", solution1)
+            for key in solution1:
+                solution += key + " is a " + solution1[key]  + ". "
         if (not claims[0][1](solution2)) and claims[1][1](solution2):
             print("Solution is:", solution2)
+            for key in solution2:
+                solution += key + " is a " + solution2[key] + ". "
         if claims[0][1](solution3) and (not claims[1][1](solution3)):
             print("Solution is:", solution3)
+            for key in solution3:
+                solution += key + " is a " + solution3[key] + ". "
         if (not claims[0][1](solution4)) and (not claims[1][1](solution4)):
             print("Solution is:", solution4)
-
+            for key in solution4:
+                solution += key + " is a " + solution4[key] + ". "
+        print(solution)
         print("=============================================================")
+
 
     
 
