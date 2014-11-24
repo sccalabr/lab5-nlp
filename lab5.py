@@ -43,10 +43,13 @@ def makeSimpleANDClaim(name1, value1, name2, value2):
     return claim
 
 def makeSimpleORClaim(name1, value1, name2, value2):
+    #print("Making OR:", name1, value1, name2, value2)
     def claim(solution):
-        if A == name1 and solution[A] == value1 or solution[B] == value2:
+        #print("Evaluating OR:", name1, value1, name2, value2, solution)
+        if A == name1 and (solution[A] == value1 or solution[B] == value2):
+            #print("OR is True")
             return True
-        elif B == name1 and solution[B] == value1 or solution[A] == value2:
+        elif B == name1 and (solution[B] == value1 or solution[A] == value2):
             return True
         else:
             return False
@@ -254,12 +257,12 @@ if __name__ == '__main__':
     for line in lines:
         claims = [] # reset for new game
         classifyKnightsAndKnaves(line)
-        #print("Claims:", claims)
+        print("Claims:", claims)
         A = claims[0][0]
         B = claims[1][0]
 
-        #print("A:", A)
-        #print("B:", B)
+        print("A:", A)
+        print("B:", B)
 
         solution1 = {A:"knight", B : "knight"}
         solution2 = {A:"knave", B : "knight"}
@@ -268,7 +271,9 @@ if __name__ == '__main__':
 
         if claims[0][1](solution1) and claims[1][1](solution1):
             print("Solution is:", solution1)
-        if (not claims[0][1](solution2)) and claims[1][1](solution2):
+        print("S2 condition1:", (not claims[0][1](solution2)))
+        print("S2 condition2:", claims[1][1](solution2))
+        if (not claims[0][1](solution2)) and claims[1][1](solution2):            
             print("Solution is:", solution2)
         if claims[0][1](solution3) and (not claims[1][1](solution3)):
             print("Solution is:", solution3)
