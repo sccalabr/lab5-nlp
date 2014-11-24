@@ -108,7 +108,13 @@ def classifyStatement(statement):
     
     elif "both knights or both knaves" in statement or "are the same" in statement:
          map[statement.split()[0]] = "(" + names[0] + " == knight " + "and " + names[1] + " == knight) or (" + names[0] + " == knave " + "and " + names[1] + " == knave)"
-        
+    
+    elif "neither" in statement.lower() : #MOEVD UP FROM BOTTOM
+        if "knave" in statement.lower() :
+            map[statement.split()[0]] = names[0] + " == knight and " + names[1] + " == knight"
+        else:
+           map[statement.split()[0]] = names[0] + " == knave and " + names[1] + " == knave"  
+             
     elif "are knights" in statement.lower() or "are both knights" in statement.lower():
         map[statement.split()[0]] = names[1] + " == knight and " + names[0] + " == knight" 
         
@@ -144,11 +150,7 @@ def classifyStatement(statement):
         else: 
             map[statement.split()[0]] = names[0] + " == knight"
     
-    elif "neither" in statement.lower() :
-        if "knave" in statement.lower() :
-            map[statement.split()[0]] = names[0] + " == knight and " + names[1] + " == knight"
-        else:
-           map[statement.split()[0]] = names[0] + " == knave and " + names[1] + " == knave" 
+     
     else:
         map[statement.split()[0]] = "MISSED A CASE"
     return map
