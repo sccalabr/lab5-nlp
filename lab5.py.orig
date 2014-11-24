@@ -272,9 +272,15 @@ if __name__ == '__main__':
         
         if claims[0][1](solution1) and claims[1][1](solution1):
             print("Solution is:", solution1)
+<<<<<<< HEAD
+        print("S2 condition1:", (not claims[0][1](solution2)))
+        print("S2 condition2:", claims[1][1](solution2))
+        if (not claims[0][1](solution2)) and claims[1][1](solution2):            
+=======
             for key in solution1:
                 solution += key + " is a " + solution1[key]  + ". "
-        if (not claims[0][1](solution2)) and claims[1][1](solution2):            
+        if (not claims[0][1](solution2)) and claims[1][1](solution2):
+>>>>>>> 43656b50ed4c34b0d360492e5aabfaefe418c08e
             print("Solution is:", solution2)
             for key in solution2:
                 solution += key + " is a " + solution2[key] + ". "
