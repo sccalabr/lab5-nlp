@@ -204,12 +204,12 @@ def classifyStatement(statement):
                 claims.append((statement.split()[0],makeSimpleClaim(names[0], ("knight" if "knave" == statement.split()[-1] else "knave"))))
     
     elif "could say that I am a knave" in statement or "could claim that I am a knave" in statement or "would tell you that I am a knave" in statement:
-          map[statement.split()[0]] = (names[1] if statement.split()[0] == names[0] else names[0]) + " == knave" #CHANGED TO ALWAYS MAKE CLAIM ABOUT THE OTHER
-          claims.append((statement.split()[0],makeSimpleClaim((names[1] if statement.split()[0] == names[0] else names[0]), "knave")))
+          map[statement.split()[0]] = (names[1] if statement.split()[0] == names[0] else names[0]) + " == knave or " + (names[0] if statement.split()[0] == names[0] else names[1]) + " == knight" #CHANGED TO BE Disjunction
+          claims.append((statement.split()[0],makeSimpleORClaim((names[1] if statement.split()[0] == names[0] else names[0]), "knave",(names[0] if statement.split()[0] == names[0] else names[1]), "knight")))
     
     elif "could say that I am a knight" in statement or "could claim that I am a knight" in statement or "would tell you that I am a knight" in statement:
-          map[statement.split()[0]] = (names[1] if statement.split()[0] == names[0] else names[0]) + " == knight" #CHANGED TO ALWAYS MAKE CLAIM ABOUT THE OTHER
-          claims.append((statement.split()[0],makeSimpleClaim((names[1] if statement.split()[0] == names[0] else names[0]), "knight")))
+          map[statement.split()[0]] = (names[1] if statement.split()[0] == names[0] else names[0]) + " == knight or " + (names[0] if statement.split()[0] == names[0] else names[1]) + " == knave" #CHANGED TO BE Disjunction
+          claims.append((statement.split()[0],makeSimpleORClaim((names[1] if statement.split()[0] == names[0] else names[0]), "knight",(names[0] if statement.split()[0] == names[0] else names[1]), "knave")))
           
     elif "Either" in statement:
         if "knight" in statement:
