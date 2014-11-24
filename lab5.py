@@ -42,7 +42,7 @@ def getName(statement):
     return name
 
 def knightKnaveCheck(statement):
-    return "I am a knight" in statement and "is a knight." in statement or "I am a knight" in statement and "is a knave." in statement or "I am a knave" in statement and "is a knight." in statement or "I am a knave" in statement and "is a knave." in statement
+    return "I am a knight" in statement and "is a knight" in statement or "I am a knight" in statement and "is a knave" in statement or "I am a knave" in statement and "is a knight" in statement or "I am a knave" in statement and "is a knave" in statement
 
 def classifyStatement(statement):
     map = {}
@@ -53,26 +53,25 @@ def classifyStatement(statement):
             name[1] = name[0]
             name[0] = name
 
-        if "I am a knight" in statement and "is a knight." in statement:
+        if "I am a knight" in statement and "is a knight" in statement:
             map[statement.split()[0]] = "(" +names[0] +" == knight) or (" + names[1] + " == knight)"
-        elif "I am a knight" in statement and "is a knave." in statement:
+        elif "I am a knight" in statement and "is a knave" in statement:
             map[statement.split()[0]] = "(" +names[0] +" == knight) or (" + names[1] + " == knave)"
-        elif "I am a knave" in statement and "is a knight." in statement:
+        elif "I am a knave" in statement and "is a knight" in statement:
             map[statement.split()[0]] = "(" +names[0] +" == knave) or (" + names[1] + " == knight)"
         else :
             map[statement.split()[0]] = "(" +names[0] +" == knave) or (" + names[1] + " == knave)"
     
     elif knightKnaveCheck(statement):
         if statement.split()[0] != names[0]:
-            name = name[1]
-            name[1] = name[0]
-            name[0] = name
-            
-        if "I am a knight" in statement and "is a knight." in statement:
+            name = names[1]
+            names[1] = names[0]
+            names[0] = name
+        if "I am a knight" in statement and "is a knight" in statement:
             map[statement.split()[0]] = "(" +names[0] +" == knight) or (" + names[1] + "== knight)"
-        elif "I am a knight" in statement and "is a knave." in statement:
+        elif "I am a knight" in statement and "is a knave" in statement:
             map[statement.split()[0]] = "(" +names[0] +" == knight) or (" + names[1] + "== knave)"
-        elif "I am a knave" in statement and "is a knight." in statement:
+        elif "I am a knave" in statement and "is a knight" in statement:
             map[statement.split()[0]] = "(" +names[0] +" == knave) or (" + names[1] + "== knight)"
         else :
             map[statement.split()[0]] = "(" +names[0] +" == knave) or (" + names[1] + "== knave)"
@@ -120,18 +119,24 @@ def classifyStatement(statement):
         
     elif "are knaves" in statement.lower() or "are both knaves" in statement.lower():
         map[statement.split()[0]] = names[1] + " == knave and " + names[0] + " == knave" 
-    #LOOK AT THIS ONE
+    #LOOK AT THIS ONE - I MODIFIED IT HEAVILY
     elif "only a knave would say that" in statement.lower():
-        if statement.split()[0] == names[0]:
-            map[statement.split()[0]] = names[1] + " == knave and " + names[0] + " == knave" 
-        else: 
-            map[statement.split()[0]] = names[0] + " == knave and " + names[1] + " == knave" 
+        if "only a knave would say that i" in statement.lower():
+            if statement.split()[0] == names[0]:
+                map[statement.split()[0]] = names[0] + " == " + ("knight" if "knave" == statement.split()[-1] else "knave") # YAY TERNARY! 
+            else: 
+                map[statement.split()[0]] = names[1] + " == " + ("knight" if "knave" == statement.split()[-1] else "knave") 
+        else:
+            if statement.split()[0] == names[0]:
+                map[statement.split()[0]] = names[1] + " == " + ("knight" if "knave" == statement.split()[-1] else "knave")
+            else: 
+                map[statement.split()[0]] = names[0] + " == " + ("knight" if "knave" == statement.split()[-1] else "knave") 
     
     elif "could say that I am a knave" in statement or "could claim that I am a knave" in statement or "would tell you that I am a knave" in statement:
-          map[statement.split()[0]] = statement.split()[0] + " == knave"
+          map[statement.split()[0]] = (names[1] if statement.split()[0] == names[0] else names[0]) + " == knave" #CHANGED TO ALWAYS MAKE CLAIM ABOUT THE OTHER
     
     elif "could say that I am a knight" in statement or "could claim that I am a knight" in statement or "would tell you that I am a knight" in statement:
-          map[statement.split()[0]] = statement.split()[0] + " == knight"
+          map[statement.split()[0]] = (names[1] if statement.split()[0] == names[0] else names[0]) + " == knight" #CHANGED TO ALWAYS MAKE CLAIM ABOUT THE OTHER
           
     elif "Either" in statement:
         if "knight" in statement:
