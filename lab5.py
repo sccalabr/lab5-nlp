@@ -98,7 +98,7 @@ def knightKnaveCheck(statement):
 
 def classifyStatement(statement):
     map = {}
-    print(statement)
+    #print(statement)
     if "least one of the following is true" in statement.lower():
         if statement.split()[0] != names[0]:
             name = name[1]
@@ -271,8 +271,8 @@ def classifyKnightsAndKnaves(line):
     names = statements[0].replace('You meet two inhabitants: ', "").replace(' and ', ' ').split()
     firstStatement = classifyStatement(statements[1].replace("'",""))
     secondStatement = classifyStatement(statements[2].replace("'",""))
-    print(firstStatement)
-    print(secondStatement)
+    #print(firstStatement)
+    #print(secondStatement)
     
 if __name__ == '__main__':
     lines = getStatementsFromFile()
@@ -280,12 +280,12 @@ if __name__ == '__main__':
     for line in lines:
         claims = [] # reset for new game
         classifyKnightsAndKnaves(line)
-        print("Claims:", claims)
+        #print("Claims:", claims)
         A = claims[0][0]
         B = claims[1][0]
 
-        print("A:", A)
-        print("B:", B)
+        #print("A:", A)
+        #print("B:", B)
 
         solution1 = {A:"knight", B : "knight"}
         solution2 = {A:"knave", B : "knight"}
@@ -294,23 +294,23 @@ if __name__ == '__main__':
         solution = ""
         
         if claims[0][1](solution1) and claims[1][1](solution1):
-            print("Solution is:", solution1)
+            #print("Solution is:", solution1)
             for key in solution1:
                 solution += key + " is a " + solution1[key]  + ". "
         if (not claims[0][1](solution2)) and claims[1][1](solution2):            
-            print("Solution is:", solution2)
+            #print("Solution is:", solution2)
             for key in solution2:
                 solution += key + " is a " + solution2[key] + ". "
         if claims[0][1](solution3) and (not claims[1][1](solution3)):
-            print("Solution is:", solution3)
+            #print("Solution is:", solution3)
             for key in solution3:
                 solution += key + " is a " + solution3[key] + ". "
         if (not claims[0][1](solution4)) and (not claims[1][1](solution4)):
-            print("Solution is:", solution4)
+            #print("Solution is:", solution4)
             for key in solution4:
                 solution += key + " is a " + solution4[key] + ". "
         print(solution)
-        print("=============================================================")
+        #print("=============================================================")
 
 
     
